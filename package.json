@@ -1,0 +1,41 @@
+{
+  "name": "flaky-fix-lab",
+  "version": "1.0.0",
+  "description": "Hands-on lab: 7 deliberately flaky Playwright tests, their root causes and fixes, measured with repeat runs and practised with AI agents.",
+  "keywords": [
+    "playwright",
+    "flaky-tests",
+    "test-automation",
+    "qa",
+    "ai-agents",
+    "claude-code",
+    "testing",
+    "e2e",
+    "playwright-mcp"
+  ],
+  "license": "MIT",
+  "author": "Dharanivendhan Mani",
+  "private": true,
+  "scripts": {
+    "setup": "npx playwright install chromium",
+    "init-agents": "npx playwright init-agents --loop=claude",
+    "dev": "node server.js",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:repeat": "playwright test --repeat-each=10",
+    "test:report": "playwright show-report",
+    "flake-report": "node scripts/flake-report.js",
+    "verify-lab": "node scripts/verify-lab.js",
+    "test:solutions": "playwright test -c playwright.solutions.config.ts",
+    "test:mine": "playwright test -c playwright.mine.config.ts",
+    "verify-lab:mine": "node scripts/verify-lab.js --mine",
+    "fix": "node scripts/start-fix.js",
+    "start-fix": "node scripts/start-fix.js"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.0.0",
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0"
+  }
+}

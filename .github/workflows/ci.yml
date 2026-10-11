@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  solutions:
+    name: Fixed tests stay stable (20x)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run verify-lab
+      # The naive suite in tests/flakiness-suite is EXPECTED to fail; CI gates on the fixed one.
+      - run: npx playwright test --config=playwright.solutions.config.ts --repeat-each=20
+      - name: Upload traces on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results-solutions/
+          retention-days: 14
